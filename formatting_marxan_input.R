@@ -67,4 +67,5 @@ setwd("D:/corona_contingency/marxan_paper/relative_abundance_layers")
 writeRaster(relative_abun, filename = names(relative_abun), bylayer=TRUE, format='GTiff')
 
 
-
+#ok TO DO TOMORROW: get the PU layer, add a PUID column and add on the raster values (but remove the blank ones) then all I need is the cost. 
+#also add a status column 

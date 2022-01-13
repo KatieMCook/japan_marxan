@@ -51,5 +51,5 @@ plot(pu_layer)
 pu_st<- st_as_sf(pu_layer)
 
 #now export as it should have the crs
-st_write(pu_st, dsn='pu_layer', layer='pu_layer.shp', driver='ESRI Shapefile')
+ #st_write(pu_st, dsn='pu_layer', layer='pu_layer.shp', driver='ESRI Shapefile')
 
