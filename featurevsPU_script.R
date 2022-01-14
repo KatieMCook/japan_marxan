@@ -71,3 +71,58 @@ pu_all<- left_join(pu, extract_centroids, by='PUID')
 
 #ok now write
 st_write(pu_all, dsn='pu_final', layer='pu_all_features.shp', driver='ESRI Shapefile')
+
+#now we need to work out the difference per PU for each feature 
+
+#current 
+now_layers <- list.files(path = "D:/corona_contingency/marxan_paper/abundance_change/now", pattern='.tif', all.files=TRUE, full.names=FALSE)
+
+#setwd so it knows where to find them 
+setwd("D:/corona_contingency/marxan_paper/abundance_change/now")
+
+now_layers <- stack(now_layers)
+
+#future 
+future_layers <- list.files(path = "D:/corona_contingency/marxan_paper/abundance_change/future", pattern='.tif', all.files=TRUE, full.names=FALSE)
+
+#setwd so it knows where to find them 
+setwd("D:/corona_contingency/marxan_paper/abundance_change/future")
+
+future_layers<- stack(future_layers)
+
+#set to project directory
+setwd("D:/corona_contingency/marxan_paper")
+
+#ok now change in layers
+
+abundance_change<- future_layers - now_layers
+
+#check
+par(mfrow=c(2,2))
+
+
+plot(future_layers[[1]])
+plot(now_layers[[1]])
+
+plot(abundance_change[[1]])
+
+
+par(mfrow=c(2,2))
+
+
+plot(future_layers[[12]])
+plot(now_layers[[12]])
+
+plot(abundance_change[[12]])
+
+#ok now extract for centroids 
+
+#extract values of raster stack at centroid poinds 
+change_centroids<- raster::extract(abundance_change, centroids)
+
+change_centroids<- as.data.frame(change_centroids)
+
+change_centroids$PUID<- centroids$PUID
+
+write.csv(change_centroids, 'PU_abun_change.csv')
+
